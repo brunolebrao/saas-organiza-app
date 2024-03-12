@@ -1,8 +1,12 @@
 'use client'
-
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import {CurrencyDollarIcon} from '@heroicons/react/20/solid'
-import { ResponsiveLine } from "@nivo/line"
+import { Separator } from "@/components/ui/separator";
+import { CurrencyDollarIcon, ArrowDownLeftIcon, ArrowUpRightIcon } from '@heroicons/react/20/solid'
+import { ResponsiveBar } from "@nivo/bar"
+import { DividerHorizontalIcon } from "@radix-ui/react-icons";
+import dynamic from "next/dynamic";
+const CalendarFormDynamic = dynamic(() => import('./components/form-calendar'), { ssr: false })
 
 type PrivateTemplateProps = {
   title: string;
@@ -12,86 +16,92 @@ type PrivateTemplateProps = {
 };
 
 export const PrivateTemplate = () => {
+
+  
   return (
-    <Card className="min-w-3 max-w-96 bg-white p-4 rounded-lg shadow-md">
-      <CardHeader className="flex flex-row justify-between items-center p-2">
-        <CardTitle className="text-xl font-semibold text-gray-500">Entrada</CardTitle>
-        <CurrencyDollarIcon className="w-6 h-6 text-orange-700" />
-      </CardHeader>
-      <CardContent className="flex flex-col items-start justify-between p-2">
-        <div className="text-3xl font-bold text-green-600">R$ 1.025,00</div>
-        <div className="text-sm text-gray-500">10% a mais que o mês anterior</div>
-        {/* <FilledtimeseriesChart className="aspect-[2/1]" /> */}
-      </CardContent>
-    </Card>
+    <>
+      <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+        <div className="flex items-center gap-4">
+          <h1 className="font-semibold text-lg md:text-xl">Home</h1>
+          {/* <div className="ml-auto flex items-center gap-2">
+            <Button className="hidden sm:flex" variant="outline">
+              Hoje
+            </Button>
+            <Button className="hidden md:flex" variant="outline">
+              Este mês
+            </Button>
+            <CalendarFormDynamic />
+          </div> */}
+        </div>
+
+      </main>
+      <div className="flex flex-col justify-between gap-7 p-5">
+        <Card className="min-w-3 w-full bg-white p-4 rounded-lg shadow-md">
+          <CardHeader className="flex flex-row justify-between items-center p-2">
+            <CardTitle className="text-xl font-semibold text-orange-400">Entrada</CardTitle>
+            <ArrowDownLeftIcon className="w-8 h-8 text-green-600" />
+          </CardHeader>
+            {/* <BarChart className="aspect-[2/1]" />
+            <Separator /> */}
+          <CardContent className="flex flex-col items-end justify-between pt-4">
+            <div className="text-3xl font-bold text-green-600">R$ 1.025,00</div>
+            <div className="text-sm text-gray-500">10% a mais que o mês anterior</div>
+          </CardContent>
+        </Card>
+        <Card className="min-w-3  w-full bg-white p-4 rounded-lg shadow-md">
+          <CardHeader className="flex flex-row justify-between items-center p-2">
+            <CardTitle className="text-xl font-semibold text-gray-600">Saida</CardTitle>
+            <ArrowUpRightIcon className="w-8 h-8 text-orange-700" />
+          </CardHeader>
+            {/* <BarChart className="aspect-[2/1]" />
+            <Separator /> */}
+          <CardContent className="flex flex-col items-end justify-between pt-4">
+            <div className="text-3xl font-bold text-red-700">R$ 1.025,00</div>
+            <div className="text-sm text-gray-500">10% a mais que o mês anterior</div>
+          </CardContent>
+        </Card>
+        <Card className="min-w-3  w-full bg-white p-4 rounded-lg shadow-md">
+          <CardHeader className="flex flex-row justify-between items-center p-2">
+            <CardTitle className="text-xl font-semibold text-gray-600">Total</CardTitle>
+            <CurrencyDollarIcon className="w-8 h-8 text-green-600" />
+          </CardHeader>
+            {/* <BarChart className="aspect-[2/1]" />
+            <Separator /> */}
+          <CardContent className="flex flex-col items-end justify-between pt-4">
+            <div className="text-3xl font-bold text-green-600">R$ 15.025,00</div>
+            <div className="text-sm text-gray-500">10% a mais que o mês anterior</div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   )
 }
-
-function FilledtimeseriesChart(props) {
+function BarChart(props) {
   return (
     <div {...props}>
-      <ResponsiveLine
+      <ResponsiveBar
         data={[
-          {
-            id: "Desktop",
-            data: [
-              { x: "Jan", y: 43 },
-              { x: "Feb", y: 137 },
-              { x: "Mar", y: 61 },
-              { x: "Apr", y: 145 },
-              { x: "May", y: 26 },
-              { x: "Jun", y: 154 },
-            ],
-          },
-          {
-            id: "Mobile",
-            data: [
-              { x: "Jan", y: 60 },
-              { x: "Feb", y: 48 },
-              { x: "Mar", y: 177 },
-              { x: "Apr", y: 78 },
-              { x: "May", y: 96 },
-              { x: "Jun", y: 204 },
-            ],
-          },
+          { name: "Jan", count: 111 },
+          { name: "FeV", count: 157 },
+          { name: "Mar", count: 129 },
+          { name: "Abr", count: 119 },
+          { name: "Mai", count: 72 },
         ]}
-        margin={{ top: 10, right: 10, bottom: 40, left: 40 }}
-        xScale={{
-          type: "point",
-        }}
-        yScale={{
-          type: "linear",
-          min: 0,
-          max: "auto",
-        }}
-        axisTop={null}
-        axisRight={null}
+        keys={["count"]}
+        indexBy="name"
+        margin={{ top: 0, right: 0, bottom: 40, left: 40 }}
+        padding={0.3}
+        colors={["#6175a5"]}
         axisBottom={{
           tickSize: 0,
           tickPadding: 16,
         }}
         axisLeft={{
           tickSize: 0,
-          tickValues: 5,
+          tickValues: 4,
           tickPadding: 16,
         }}
-        colors={["#2563eb", "#e11d48"]}
-        pointSize={6}
-        useMesh={true}
-        curve="monotoneX"
-        enableArea={true}
-        gridYValues={6}
-        defs={[
-          {
-            id: "line-chart-gradient",
-            type: "linearGradient",
-            colors: [
-              { offset: 0, color: "inherit" },
-              { offset: 200, color: "inherit", opacity: 0 },
-            ],
-          },
-        ]}
-        fill={[{ match: "*", id: "line-chart-gradient" }]}
+        gridYValues={4}
         theme={{
           tooltip: {
             chip: {
@@ -109,7 +119,10 @@ function FilledtimeseriesChart(props) {
             },
           },
         }}
+        tooltipLabel={({ id }) => `${id}`}
+        enableLabel={false}
         role="application"
+        ariaLabel="A bar chart showing data"
       />
     </div>
   )

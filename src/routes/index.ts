@@ -6,6 +6,7 @@ export const routes =  [
     title: "Inicio",
     href: "/",
     Icon: HomeIcon,
+    gap: true
   },
   {
     title: "Public",
